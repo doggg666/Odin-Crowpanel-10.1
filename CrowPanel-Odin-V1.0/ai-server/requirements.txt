@@ -1,0 +1,9 @@
+fastapi>=0.115,<1
+uvicorn[standard]>=0.30,<1
+ollama>=0.4,<1
+python-multipart>=0.0.9
+pydantic>=2.7,<3
+python-dotenv>=1.0
+openai>=1.40
+faster-whisper>=1.1,<2
+silero-vad>=5,<7
