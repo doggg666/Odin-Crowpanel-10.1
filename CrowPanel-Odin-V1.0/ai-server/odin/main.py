@@ -17,6 +17,10 @@ log = logging.getLogger("odin")
 app = FastAPI(title="Odin AI Companion API", version="0.1.0")
 ollama = OllamaClient(host=config.OLLAMA_HOST)
 
+
+def lm_studio_client():
+    return OpenAI(base_url=config.LM_STUDIO_BASE_URL, api_key=config.LM_STUDIO_API_KEY)
+
 Mode = Literal["local", "cloud", "auto"]
 
 
@@ -34,6 +38,11 @@ def local_chat(message: str, history: list[dict[str, str]]):
         if role in ("user", "assistant") and isinstance(content, str):
             messages.append({"role": role, "content": content[:12000]})
     messages.append({"role": "user", "content": message})
+    if config.LOCAL_BACKEND == "lm_studio":
+        if not config.LM_STUDIO_MODEL:
+            raise RuntimeError("Set LM_STUDIO_MODEL to the model identifier shown in LM Studio.")
+        result = lm_studio_client().chat.completions.create(model=config.LM_STUDIO_MODEL, messages=messages)
+        return result.choices[0].message.content or ""
     result = ollama.chat(model=config.OLLAMA_CHAT_MODEL, messages=messages)
     return result.message.content
 
@@ -72,6 +81,9 @@ def health():
         "status": "ok",
         "assistant": "Odin",
         "configured_mode": config.AI_MODE,
+        "local_backend": config.LOCAL_BACKEND,
+        "local_model": config.LM_STUDIO_MODEL if config.LOCAL_BACKEND == "lm_studio" else config.OLLAMA_CHAT_MODEL,
+        "lm_studio_base_url": config.LM_STUDIO_BASE_URL if config.LOCAL_BACKEND == "lm_studio" else None,
         "ollama_host": config.OLLAMA_HOST,
         "chat_model": config.OLLAMA_CHAT_MODEL,
         "vision_model": config.OLLAMA_VISION_MODEL,
@@ -102,15 +114,30 @@ async def vision(
     if len(raw) > config.MAX_IMAGE_BYTES:
         raise HTTPException(413, "Image exceeds MAX_IMAGE_BYTES.")
     try:
-        result = ollama.chat(
-            model=config.OLLAMA_VISION_MODEL,
-            messages=[{
-                "role": "user",
-                "content": question,
-                "images": [base64.b64encode(raw).decode("ascii")],
-            }],
-        )
-        return {"assistant": "Odin", "reply": result.message.content, "provider": "local"}
+        if config.LOCAL_BACKEND == "lm_studio":
+            if not config.LM_STUDIO_MODEL:
+                raise RuntimeError("Set LM_STUDIO_MODEL to a vision-capable model loaded in LM Studio.")
+            mime = image.content_type or "image/jpeg"
+            data_url = f"data:{mime};base64,{base64.b64encode(raw).decode('ascii')}"
+            result = lm_studio_client().chat.completions.create(
+                model=config.LM_STUDIO_MODEL,
+                messages=[{"role": "user", "content": [
+                    {"type": "text", "text": question},
+                    {"type": "image_url", "image_url": {"url": data_url}},
+                ]}],
+            )
+            reply = result.choices[0].message.content or ""
+        else:
+            result = ollama.chat(
+                model=config.OLLAMA_VISION_MODEL,
+                messages=[{
+                    "role": "user",
+                    "content": question,
+                    "images": [base64.b64encode(raw).decode("ascii")],
+                }],
+            )
+            reply = result.message.content
+        return {"assistant": "Odin", "reply": reply, "provider": "local"}
     except Exception as exc:
         log.exception("Vision request failed")
         raise HTTPException(502, f"Local vision request failed: {exc}") from exc
