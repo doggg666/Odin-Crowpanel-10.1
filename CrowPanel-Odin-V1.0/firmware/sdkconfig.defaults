@@ -1,0 +1,4 @@
+# Odin target defaults.
+# Select the actual target with: idf.py set-target esp32p4
+# Preserve and merge the Elecrow V1.0 board configuration when BSP is integrated.
+CONFIG_IDF_TARGET="esp32p4"
