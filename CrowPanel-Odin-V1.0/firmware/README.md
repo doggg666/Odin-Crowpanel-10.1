@@ -10,7 +10,7 @@ CrowPanel Advanced 10.1 hardware revision V1.0:
 
 ## Build the current scaffold
 
-Use ESP-IDF **v5.4.2** in an ESP-IDF PowerShell or VS Code terminal:
+Use ESP-IDF **v6.0.1** in an ESP-IDF PowerShell or VS Code terminal:
 
 ```powershell
 cd CrowPanel-Odin-V1.0/firmware
@@ -18,7 +18,7 @@ idf.py set-target esp32p4
 idf.py build
 ```
 
-The current `main.c` is deliberately hardware-neutral. A successful build
+The current `main.c` uses ESP-IDF 6-compatible chip information APIs and is deliberately hardware-neutral. A successful build
 only verifies the ESP-IDF project skeleton. It does **not** initialize the
 display, touch controller, camera, microphone, speaker, amplifier, or ESP32-C6
 Wi-Fi, and it is not yet the finished Odin firmware.
@@ -48,6 +48,10 @@ ESP-Hosted Wi-Fi a second time if the BSP already owns those resources.
 The existing `odin_ui/odin_ui.c` uses LVGL 8.x APIs and must be added to the
 firmware component build only after the Elecrow BSP has supplied and initialized
 the matching LVGL 8.3 component.
+
+## ESP-IDF 6.0.1 migration notes
+
+The bare ESP32-P4 project is configured to compile without the optional Wi-Fi implementation (`CONFIG_ODIN_WIFI_ENABLE=n`). This avoids requiring the ESP32-C6 hosted Wi-Fi driver before it has been integrated. Enable Wi-Fi only after bringing in an ESP-IDF 6.0.1-compatible ESP-Hosted / esp_wifi_remote stack and testing it on the V1.0 board. Elecrow's V1.0 BSP and LVGL dependencies have **not** yet been migrated or validated against IDF 6.0.1. Build success is not yet verified in a local IDF 6 toolchain.
 
 ## Wi-Fi network support (integration stage)
 
