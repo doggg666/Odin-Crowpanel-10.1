@@ -1,17 +1,17 @@
-#include <inttypes.h>
-
+#include "esp_chip_info.h"
+#include "esp_idf_version.h"
 #include "esp_log.h"
-#include "esp_system.h"
 
 static const char *TAG = "odin";
 
 void app_main(void)
 {
+    esp_chip_info_t chip;
+    esp_chip_info(&chip);
     ESP_LOGI(TAG, "Odin firmware scaffold booted.");
-    ESP_LOGI(TAG, "Chip: %s, revision: %d", CONFIG_IDF_TARGET,
-             esp_get_chip_revision());
-    ESP_LOGW(TAG,
-             "Board peripherals are not initialized in this scaffold yet.");
-    ESP_LOGW(TAG,
-             "Next: integrate the exact Elecrow CrowPanel Advanced 10.1 V1.0 BSP.");
+    ESP_LOGI(TAG, "ESP-IDF: %s", esp_get_idf_version());
+    ESP_LOGI(TAG, "Target: %s, silicon revision: %u",
+             CONFIG_IDF_TARGET, (unsigned)chip.revision);
+    ESP_LOGW(TAG, "CrowPanel V1.0 board peripherals are not initialized yet.");
+    ESP_LOGW(TAG, "Integrate and validate the V1.0 BSP with ESP-IDF 6.0.1 before using hardware.");
 }
