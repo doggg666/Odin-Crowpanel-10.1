@@ -3,7 +3,7 @@
 Provides network scan, SSID/password connection, disconnect, bounded retry,
 and optional credential persistence in NVS.
 
-**Hardware integration required:** ESP32-P4 has no built-in Wi-Fi radio. The
+**ESP-IDF 6.0.1:** `CONFIG_ODIN_WIFI_ENABLE` defaults to `n` so the bare ESP32-P4 scaffold does not require a hosted Wi-Fi implementation. Enable it through menuconfig only after installing and validating a matching IDF 6.0.1-compatible ESP-Hosted / esp_wifi_remote stack. This module has not been hardware-tested.\n\n**Hardware integration required:** ESP32-P4 has no built-in Wi-Fi radio. The
 CrowPanel V1.0 uses an ESP32-C6 wireless coprocessor. This component calls the
 ESP-IDF Wi-Fi API, which must be supplied through the **matching V1.0
 ESP-Hosted / esp_wifi_remote stack**. Do not compile this component into
