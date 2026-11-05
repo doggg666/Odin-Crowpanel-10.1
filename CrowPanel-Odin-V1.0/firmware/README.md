@@ -48,3 +48,7 @@ ESP-Hosted Wi-Fi a second time if the BSP already owns those resources.
 The existing `odin_ui/odin_ui.c` uses LVGL 8.x APIs and must be added to the
 firmware component build only after the Elecrow BSP has supplied and initialized
 the matching LVGL 8.3 component.
+
+## Wi-Fi network support (integration stage)
+
+`components/odin_wifi/` now contains a Wi-Fi station manager with network scanning, password-based connection, bounded reconnect retries, disconnect, and optional saved credentials in NVS. The module is **not yet wired into `main.c`**: ESP32-P4 needs the Elecrow **V1.0 ESP32-C6 hosted Wi-Fi transport** and its correct configuration first. See `components/odin_wifi/README.md` before enabling it. No touch-screen network picker is implemented yet.
