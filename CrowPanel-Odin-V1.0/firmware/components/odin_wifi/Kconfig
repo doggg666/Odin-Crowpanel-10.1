@@ -1,0 +1,11 @@
+menu "Odin networking"
+
+    config ODIN_WIFI_ENABLE
+        bool "Enable Odin ESP32-C6 hosted Wi-Fi station manager"
+        default n
+        help
+            Enable only after integrating a matching ESP32-P4 / ESP32-C6
+            ESP-Hosted or esp_wifi_remote transport compatible with the
+            installed ESP-IDF version. The ESP32-P4 has no Wi-Fi radio.
+
+endmenu
