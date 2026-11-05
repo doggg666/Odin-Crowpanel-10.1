@@ -6,7 +6,7 @@ integration code for the Elecrow CrowPanel Advanced 10.1 V1.0.
 ## Target
 - CrowPanel Advanced 10.1 hardware V1.0: ESP32-P4 + ESP32-C6
 - 1024×600 display, 16 MB flash, 32 MB PSRAM
-- ESP-IDF 5.4.2 and LVGL 8.3
+- ESP-IDF 6.0.1 target for the firmware scaffold; LVGL 8.3 UI remains unintegrated
 - Use only Elecrow's matching `example/V1.0/idf-code/` source; do not mix V1.1/V1.2 BSP settings.
 
 Official sources:
@@ -24,7 +24,7 @@ Official sources:
 
 ## Build the current firmware scaffold
 
-Install ESP-IDF **v5.4.2** and use an ESP-IDF terminal:
+Install ESP-IDF **v6.0.1** and use an ESP-IDF terminal:
 
 ```powershell
 cd CrowPanel-Odin-V1.0/firmware
@@ -41,7 +41,7 @@ flash-ready Odin firmware.
 ## Included
 - FastAPI backend: local chat through Ollama or LM Studio, optional OpenAI-compatible cloud chat, image vision (LM Studio image support depends on the loaded model), health endpoint and JSON WebSocket text chat.
 - LVGL 8.3 Odin screen scaffold.
-- Minimal ESP-IDF 5.4.2 project structure.
+- Minimal ESP-IDF 6.0.1 project structure.
 - Protocol and V1.0 integration notes.
 
 ## Not implemented yet
