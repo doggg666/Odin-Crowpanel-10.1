@@ -1,0 +1,55 @@
+menu "Odin Dashboard"
+
+    config ODIN_WIFI_SSID
+        string "Wi-Fi SSID"
+        default "myssid"
+
+    config ODIN_WIFI_PASSWORD
+        string "Wi-Fi password (empty = open network)"
+        default "mypassword"
+
+    config ODIN_WEATHER_CITY
+        string "City label shown on the weather panel"
+        default "LAVAL, QC"
+
+    config ODIN_WEATHER_LAT
+        string "Weather latitude"
+        default "45.6066"
+
+    config ODIN_WEATHER_LON
+        string "Weather longitude"
+        default "-73.7124"
+
+    config ODIN_TIMEZONE
+        string "POSIX timezone string"
+        default "EST5EDT,M3.2.0,M11.1.0"
+
+    config ODIN_DEFAULT_TTS_URL
+        string "Default TTS server address"
+        default "http://192.168.1.81:8888"
+
+    config ODIN_TTS_API_KEY
+        string "TTS API key (Bearer authentication)"
+        default ""
+
+    config ODIN_TTS_MODEL
+        string "Default TTS model (optional)"
+        default ""
+
+    config ODIN_TTS_VOICE
+        string "Default TTS voice (optional)"
+        default ""
+
+    config ODIN_STT_URL
+        string "Speech-to-text server base URL (OpenAI /v1/audio/transcriptions)"
+        default "http://192.168.1.81:8001"
+
+    config ODIN_STT_API_KEY
+        string "Speech-to-text API key (Bearer authentication)"
+        default ""
+
+    config ODIN_LLM_URL
+        string "LLM server base address"
+        default "http://192.168.1.93:1234/v1"
+
+endmenu

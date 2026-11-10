@@ -1,3 +1,7 @@
+# Current firmware
+
+The [current Odin dashboard firmware](current-firmware/) is a complete ESP-IDF 5.5 project for the CrowPanel Advanced 10.1-inch V1.0. Build and verification instructions are in its README. The older scaffold remains below for reference.
+
 # Odin — CrowPanel Advanced 10.1 AI Assistant
 
 Starter integration project for the Elecrow CrowPanel Advanced 10.1 ESP32-P4 HMI, with a Windows-hosted local/cloud AI backend and LVGL 8.3 UI scaffold.
